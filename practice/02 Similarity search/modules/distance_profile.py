@@ -27,4 +27,16 @@ def brute_force(ts: np.ndarray, query: np.ndarray, is_normalize: bool = True) ->
 
     # INSERT YOUR CODE
 
+    if is_normalize:
+        query = z_normalize(query)
+
+    for i in range(N):
+        subsequence = ts[i:i + m]
+        
+        if is_normalize:
+          subsequence = z_normalize(subsequence)
+
+        # Вычисляем евклидово расстояние между запросом и подпоследовательностью
+        dist_profile[i] = np.sqrt(np.sum((query - subsequence) ** 2))
+
     return dist_profile

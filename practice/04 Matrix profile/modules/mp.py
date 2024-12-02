@@ -25,6 +25,18 @@ def compute_mp(ts1: np.ndarray, m: int, exclusion_zone: int = None, ts2: np.ndar
     
     # INSERT YOUR CODE
 
+     # Compute the matrix profile
+    if ts2 is None:
+        # Self-join
+        mp = stumpy.stump(ts1, m, ignore_trivial=True if exclusion_zone else False)
+    else:
+        # AB-join
+        mp = stumpy.stump(T_A=ts1, m=m, T_B=ts2)
+    
+    # Extract the matrix profile and indices
+    matrix_profile = mp[:, 0]
+    matrix_profile_indices = mp[:, 1]
+
     return {'mp': mp[:, 0],
             'mpi': mp[:, 1],
             'm' : m,

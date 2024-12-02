@@ -11,7 +11,7 @@ import plotly.express as px
 plotly.offline.init_notebook_mode(connected=True)
 
 
-def plot_ts(ts: np.ndarrray, title: str = 'Input Time Series') -> None:
+def plot_ts(ts: np.ndarray, title: str = 'Input Time Series') -> None:
     """
     Plot the time series
 
@@ -86,6 +86,8 @@ def plot_motifs(mp: dict, top_k_motifs: dict) -> None:
     for i in range(top_k):
         left_motif_idx = top_k_motifs['indices'][i][0]
         right_motif_idx = top_k_motifs['indices'][i][1]
+        if right_motif_idx < left_motif_idx:
+          right_motif_idx, left_motif_idx = left_motif_idx, right_motif_idx
         x = np.arange(left_motif_idx, right_motif_idx+m)
         num_values_between_motif = right_motif_idx - (left_motif_idx+m)
         y = np.concatenate((mp['data']['ts1'][left_motif_idx:left_motif_idx+m], np.full([1, num_values_between_motif], np.nan)[0], mp['data']['ts1'][right_motif_idx:right_motif_idx+m]))
